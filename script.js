@@ -8,11 +8,38 @@ const generatePassword = (length, options) => {
     const specialChars = "!@#$%^&*()";
 
     // TODO: Create a variable for the character set based on selected options
+     
+    let charSet = "";
+    if (options.includeUppercase) charSet += uppercase;
+    if (options.includeLowercase) charSet += lowercase;
+    if (options.includeNumbers) charSet += numbers;
+    if (options.includeSpecialChars) charSet += specialChars;   
 
-    // TODO: Generate the password based on the selected criteria
+    if (charSet.length === 0) {
+        return "No character set selected, please select at least one option.";
+    }
+    // Build the character set based on selected options
+    
+    let pass = "";
+    for (let i = 0; i < length; i++) {
+        password += charSet.charAt(Math.floor(Math.random() * charSet.length));
+    }
+
     return password;
 };
-
-// TODO: Add event listener to the button to call generatePassword and display the output
+    
+ // Use value instead of textContent
+ document.getElementById('generateBtn').addEventListener('click', () => {
+    const length = parseInt(document.getElementById('length').value, 10);
+    const options = {
+        includeUppercase: document.getElementById('includeUppercase').checked,
+        includeLowercase: document.getElementById('includeLowercase').checked,
+        includeNumbers: document.getElementById('includeNumbers').checked,
+        includeSpecialChars: document.getElementById('includeSpecialChars').checked,
+    };
+    
+    const password = generatePassword(length, options);
+    document.getElementById('passwordOutput').value = password;
+});
 
 // BONUS: Implement the copy to clipboard functionality
